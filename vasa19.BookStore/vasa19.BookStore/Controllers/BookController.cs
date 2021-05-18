@@ -3,24 +3,34 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using vasa19.BookStore.Models;
+using vasa19.BookStore.Repository;
 
 namespace vasa19.BookStore.Controllers
 {
     public class BookController : Controller
     {
-        public string GetAllBooks()
+        private readonly BookRepository _bookRepository;
+
+        public BookController()
         {
-            return "All Books";
+            _bookRepository = new BookRepository();
         }
 
-        public string GetBook(int id)
+        public ViewResult GetAllBooks()
         {
-            return $"Book with Id = {id}";
+            var data =  _bookRepository.GetAllBooks();
+            return View();
         }
 
-        public string SearchBooks(string bookName, string authorName)
+        public BookModel GetBook(int id)
         {
-            return $"Book with name = {bookName} & Author = {authorName}";
+            return _bookRepository.GetBookById(id);
+        }
+
+        public List<BookModel> SearchBooks(string bookName, string authorName)
+        {
+            return _bookRepository.SearchBook(bookName, authorName);
         }
     }
 }
