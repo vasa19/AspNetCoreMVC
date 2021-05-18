@@ -27,7 +27,6 @@ namespace vasa19.BookStore
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
