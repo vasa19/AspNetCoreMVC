@@ -17,5 +17,10 @@ namespace vasa19.BookStore.Controllers
         {
             return View();
         }
+
+        public ViewResult ContactUs()
+        {
+            return View();
+        }
     }
 }
