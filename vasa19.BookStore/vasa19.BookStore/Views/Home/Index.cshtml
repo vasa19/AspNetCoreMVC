@@ -1,18 +1,10 @@
-﻿
-
-@section breadcrumb{
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item"><a href="#">Page 1</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Index</li>
-        </ol>
-    </nav>
-}
+﻿@*@{ 
+    ViewData["Title"] = "Home";
+}*@
 
 <section class="jumbotron text-center">
     <div class="container">
-        <h1>Welcome to Bookstore</h1>
+        <h1>Welcome to Bookstore @ViewData["CustomProperty"]</h1>
         <p class="lead text-muted">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         </p>

@@ -25,7 +25,10 @@ namespace vasa19.BookStore.Controllers
 
         public ViewResult GetBook(int id)
         {
-            var data =  _bookRepository.GetBookById(id);
+            dynamic data = new System.Dynamic.ExpandoObject();
+            data.book =  _bookRepository.GetBookById(id);
+            data.Name = "Vasu";
+
             return View(data);
         }
 
