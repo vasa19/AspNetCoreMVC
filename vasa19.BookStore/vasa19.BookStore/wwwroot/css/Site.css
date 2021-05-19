@@ -1,5 +1,5 @@
 ﻿body {
-
+    margin-bottom: 60px;
 }
 
 .logo{
@@ -9,4 +9,30 @@
 
 .jumbotron{
     background: none;
+}
+
+.box-shadow{
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy{
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+html{
+    position: relative;
+    min-height: 100%;
+}
+
+.footer{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+}
+
+.membership-img{
+    width: 80%;
 }
