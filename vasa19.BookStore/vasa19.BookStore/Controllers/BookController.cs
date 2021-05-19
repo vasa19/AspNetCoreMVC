@@ -23,6 +23,7 @@ namespace vasa19.BookStore.Controllers
             return View(data);
         }
 
+        [Route("book-details/{id}")]
         public ViewResult GetBook(int id)
         {
             dynamic data = new System.Dynamic.ExpandoObject();
