@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,20 +38,46 @@ namespace vasa19.BookStore.Controllers
 
         public ViewResult AddNewBook(bool isSuccess = false, int bookId = 0)
         {
+            var model = new BookModel()
+            {
+                //Language = "2"
+            };
+
+            ViewBag.Language = GetLanguage().Select(x => new SelectListItem()
+             {
+                Text = x.Text,
+                Value = x.Id.ToString()
+            }).ToList();
+
             ViewBag.IsSuccess = isSuccess;
             ViewBag.BookId = bookId;
-            return View(); 
+            return View(model); 
         }
 
         [HttpPost]
         public async Task<IActionResult> AddNewBook(BookModel bookmodel)
         {
-            int id = await _bookRepository.AddNewBook(bookmodel);
-            if(id > 0)
+            if(ModelState.IsValid)
             {
-                return RedirectToAction("AddNewBook", new { isSuccess = true, bookId = id });
+                int id = await _bookRepository.AddNewBook(bookmodel);
+                if (id > 0)
+                {
+                    return RedirectToAction("AddNewBook", new { isSuccess = true, bookId = id });
+                }
             }
+            ViewBag.Language = new SelectList(GetLanguage(), "Id", "Text");
+
             return View();
+        }
+
+        private List<LanguageModel> GetLanguage()
+        {
+            return new List<LanguageModel>()
+            {
+                new LanguageModel(){ Id = 1, Text = "Hindi"},
+                new LanguageModel(){ Id = 2, Text = "English"},
+                new LanguageModel(){ Id = 3, Text = "French"},
+            };
         }
     }
 }
