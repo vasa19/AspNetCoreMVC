@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using vasa19.BookStore.Models;
@@ -12,10 +14,14 @@ namespace vasa19.BookStore.Controllers
     public class BookController : Controller
     {
         private readonly BookRepository _bookRepository;
+        private readonly LanguageRepository _languageRepository;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public BookController(BookRepository bookRepository)
+        public BookController(BookRepository bookRepository, LanguageRepository languageRepository, IWebHostEnvironment webHostEnvironment)
         {
             _bookRepository = bookRepository;
+            _languageRepository = languageRepository;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task<ViewResult> GetAllBooks()
@@ -36,18 +42,11 @@ namespace vasa19.BookStore.Controllers
             return _bookRepository.SearchBook(bookName, authorName);
         }
 
-        public ViewResult AddNewBook(bool isSuccess = false, int bookId = 0)
+        public async Task<ViewResult> AddNewBook(bool isSuccess = false, int bookId = 0)
         {
-            var model = new BookModel()
-            {
-                //Language = "2"
-            };
+            var model = new BookModel();
 
-            ViewBag.Language = GetLanguage().Select(x => new SelectListItem()
-             {
-                Text = x.Text,
-                Value = x.Id.ToString()
-            }).ToList();
+            ViewBag.Language = new SelectList(await _languageRepository.GetLanguages(), "Id", "Name");
 
             ViewBag.IsSuccess = isSuccess;
             ViewBag.BookId = bookId;
@@ -55,29 +54,30 @@ namespace vasa19.BookStore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewBook(BookModel bookmodel)
+        public async Task<IActionResult> AddNewBook(BookModel bookModel)
         {
             if(ModelState.IsValid)
             {
-                int id = await _bookRepository.AddNewBook(bookmodel);
+                if(bookModel.CoverPhoto != null)
+                {
+                    string folder = "books/cover";
+                    folder += Guid.NewGuid().ToString() + "_" + bookModel.CoverPhoto.FileName;
+                    bookModel.CoverImageUrl = folder;
+
+                    string serverFolder = Path.Combine(_webHostEnvironment.WebRootPath, folder);
+
+                    await bookModel.CoverPhoto.CopyToAsync(new FileStream(serverFolder, FileMode.Create));
+                }
+
+                int id = await _bookRepository.AddNewBook(bookModel);
                 if (id > 0)
                 {
                     return RedirectToAction("AddNewBook", new { isSuccess = true, bookId = id });
                 }
             }
-            ViewBag.Language = new SelectList(GetLanguage(), "Id", "Text");
+            ViewBag.Language = new SelectList(await _languageRepository.GetLanguages(), "Id", "Name");
 
             return View();
-        }
-
-        private List<LanguageModel> GetLanguage()
-        {
-            return new List<LanguageModel>()
-            {
-                new LanguageModel(){ Id = 1, Text = "Hindi"},
-                new LanguageModel(){ Id = 2, Text = "English"},
-                new LanguageModel(){ Id = 3, Text = "French"},
-            };
         }
     }
 }

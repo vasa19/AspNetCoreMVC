@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace vasa19.BookStore.Migrations
 {
-    public partial class init : Migration
+    public partial class firstmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -17,7 +18,9 @@ namespace vasa19.BookStore.Migrations
                     Description = table.Column<string>(nullable: true),
                     Category = table.Column<string>(nullable: true),
                     Language = table.Column<string>(nullable: true),
-                    TotalPages = table.Column<int>(nullable: false)
+                    TotalPages = table.Column<int>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: true),
+                    UpdatedOn = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {

@@ -10,8 +10,8 @@ using vasa19.BookStore.Data;
 namespace vasa19.BookStore.Migrations
 {
     [DbContext(typeof(BookStoreContext))]
-    [Migration("20210520082345_added2column")]
-    partial class added2column
+    [Migration("20210522080951_firstmigration")]
+    partial class firstmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

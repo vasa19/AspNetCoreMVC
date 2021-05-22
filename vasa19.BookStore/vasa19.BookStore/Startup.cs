@@ -19,12 +19,17 @@ namespace vasa19.BookStore
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<BookStoreContext>(options => options.UseSqlServer(@"Server=DESKTOP-KNLJIJJ\SQLEXPRESS;Database=BookStore;Integrated Security=True;"));
+            services.AddDbContext<BookStoreContext>(options => options.UseSqlServer(@"Server=DESKTOP-FPPMU8G\SQLEXPRESS;Database=BookStore;Integrated Security=True;"));
             services.AddControllersWithViews();
 #if DEBUG
             services.AddRazorPages().AddRazorRuntimeCompilation();
+            //    .AddViewOptions(option =>
+            //{
+            //    option.HtmlHelperOptions.ClientValidationEnabled = false;
+            //});
 #endif
             services.AddScoped<BookRepository, BookRepository>();
+            services.AddScoped<LanguageRepository, LanguageRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
