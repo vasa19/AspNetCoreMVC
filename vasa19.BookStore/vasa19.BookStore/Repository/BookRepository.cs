@@ -27,8 +27,19 @@ namespace vasa19.BookStore.Repository
                 LanguageId = model.LanguageId,
                 TotalPages = model.TotalPages.HasValue ? model.TotalPages.Value : 0,
                 UpdatedOn = DateTime.UtcNow,
-                CoverImageUrl = model.CoverImageUrl
+                CoverImageUrl = model.CoverImageUrl,
+                BookPdfUrl = model.BookPdfUrl
             };
+
+            newBook.bookGallery = new List<BookGallery>();
+            foreach(var file in model.Gallery)
+            {
+                newBook.bookGallery.Add(new BookGallery()
+                {
+                    Name = file.Name,
+                    URL = file.URL
+                });
+            }
 
             await _context.Books.AddAsync(newBook);
             await _context.SaveChangesAsync();
@@ -74,7 +85,14 @@ namespace vasa19.BookStore.Repository
                     Language = book.Language.Name,
                     Title = book.Title,
                     TotalPages = book.TotalPages,
-                    CoverImageUrl = book.CoverImageUrl
+                    CoverImageUrl = book.CoverImageUrl,
+                    Gallery = book.bookGallery.Select(g => new GalleryModel()
+                    {
+                        Id = g.Id,
+                        Name = g.Name,
+                        URL = g.URL
+                    }).ToList(),
+                    BookPdfUrl = book.BookPdfUrl
                 }).FirstOrDefaultAsync();
         }
 

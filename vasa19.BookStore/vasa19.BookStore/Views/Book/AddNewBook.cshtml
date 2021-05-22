@@ -62,6 +62,24 @@
     </div>
 
     <div class="form-group">
+        <label asp-for="GalleryFiles"></label>
+        <div class="custom-file">
+            <input asp-for="GalleryFiles" class="custom-file-input" id="customFile" />
+            <label class="custom-file-label" for="customFile">Choose File</label>
+        </div>
+        <span asp-validation-for="GalleryFiles" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="BookPdf"></label>
+        <div class="custom-file">
+            <input asp-for="BookPdf" class="custom-file-input" id="customFile" />
+            <label class="custom-file-label" for="customFile">Choose File</label>
+        </div>
+        <span asp-validation-for="BookPdf" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
         <input type="submit" value="Add Book" class="btn btn-primary" />
     </div>
 </form>

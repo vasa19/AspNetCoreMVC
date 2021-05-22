@@ -33,5 +33,14 @@ namespace vasa19.BookStore.Models
         [Required]
         public IFormFile CoverPhoto { get; set; }
         public string CoverImageUrl { get; set; }
+
+        [Display(Name = "Choose the gallery images of your book")]
+        [Required]
+        public IFormFileCollection GalleryFiles { get; set; }
+        public List<GalleryModel> Gallery { get; set; }
+        [Display(Name = "Upload your book in pdf format")]
+        [Required]
+        public IFormFile BookPdf { get; set; }
+        public string BookPdfUrl { get; set; }
     }
 }
